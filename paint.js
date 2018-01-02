@@ -1,19 +1,34 @@
-var bullet;
+var population;
 
 function setup() {
 	createCanvas(400, 300);
-	bullet = new Bullet();
+	population = new Population();
 }
 
 function draw() {
 	background(0);
-	bullet.update();
-	bullet.display();
+	population.run();
+}
+
+function Population() {
+	this.bullets = [];
+	this.size = 100;
+
+	for (var i = 0; i < this.size; i++) {
+		this.bullets[i] = new Bullet();
+	}
+
+	this.run = function() {
+		for (var i = 0; i < this.size; i++) {
+			this.bullets[i].update();
+			this.bullets[i].display();
+		}
+	}
 }
 
 function Bullet() {
 	this.pos = createVector(width/2, height);
-	this.vel = createVector(0, -1);
+	this.vel = p5.Vector.random2D();
 	this.acc = createVector();
 
 
@@ -32,6 +47,7 @@ function Bullet() {
 	// display the arrow
 	this.display = function() {
 		push();
+		fill(255, 150);
 		translate(this.pos.x, this.pos.y);
 		rectMode(CENTER);
 
